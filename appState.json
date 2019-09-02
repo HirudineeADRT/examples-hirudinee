@@ -23,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "serve-dynamic-html-via-http-endpoint/handler.js",
-        "code": "'use strict';\n\nmodule.exports.landingPage = (event, context, callback) => {\n  let dynamicHtml = '<p>Hey Unknown!</p>';\n  // check for GET params and use if available\n  if (event.queryStringParameters && event.queryStringParameters.name) {\n    dynamicHtml = `<p>Hey ${event.queryStringParameters.name}!</p>`;\n  }\n\n  const html = `\n  <html>\n    <style>\n      h1 { color: #73757d; }\n    </style>\n    <body>\n      <h1>Landing Page</h1>\n      ${dynamicHtml}\n <form action=${testaction}>\n  First name:<br>\n  <input type=\"text\" name=\"firstname\" value=\"Mickey\">\n  <br>\n  Last name:<br>\n  <input type=\"text\" name=\"lastname\" value=\"Mouse\">\n  <br><br>\n  <input type=\"submit\" value=\"Submit\">\n</form>\n    </body>\n  </html>`;\n\n  console.log(testaction);\n\n  const response = {\n    statusCode: 200,\n    headers: {\n      'Content-Type': 'text/html',\n    },\n    body: html,\n  };\n\n  // callback is sending HTML back\n  callback(null, response);\n};\n",
+        "code": "'use strict';\n\nmodule.exports.landingPage = (event, context, callback) => {\n  let dynamicHtml = '<p>Hey Unknown!</p>';\n  // check for GET params and use if available\n  if (event.queryStringParameters && event.queryStringParameters.name) {\n    dynamicHtml = `<p>Hey ${event.queryStringParameters.name}!</p>`;\n  }\n\n  const html = `\n  <html>\n    <style>\n      h1 { color: #73757d; }\n    </style>\n    <body>\n      <h1>Landing Page</h1>\n      ${dynamicHtml}\n <form action=\"https://bevmmoznda.execute-api.us-east-1.amazonaws.com/Testhiru/serverlesssample\">\n  First name:<br>\n  <input type=\"text\" name=\"firstname\" value=\"Mickey\">\n  <br>\n  Last name:<br>\n  <input type=\"text\" name=\"lastname\" value=\"Mouse\">\n  <br><br>\n  <input type=\"submit\" value=\"Submit\">\n</form>\n    </body>\n  </html>`;\n\n  console.log(testaction);\n\n  const response = {\n    statusCode: 200,\n    headers: {\n      'Content-Type': 'text/html',\n    },\n    body: html,\n  };\n\n  // callback is sending HTML back\n  callback(null, response);\n};\n",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "landingPage",
@@ -101,7 +101,7 @@
         },
         "triggers": [
           {
-            "resourceName": "apigusEast1HiruAPIserverlesssampleget",
+            "resourceName": "apigusEast1HiruAPIserverlesssample1post",
             "config": {}
           }
         ]
@@ -159,6 +159,32 @@
           "stageName": "Testhiru",
           "mode": 1
         }
+      },
+      "apigusEast1HiruAPIserverlesssample1post": {
+        "name": "apigusEast1HiruAPIserverlesssample1post",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiMode": 1,
+          "apiName": "HiruAPI",
+          "apiId": "bevmmoznda",
+          "endpointType": "EDGE",
+          "rootResourceId": "20m9chisb7",
+          "existingResources": {
+            "/": "20m9chisb7",
+            "/135": "37okfh",
+            "/135/async": "jevuxc"
+          },
+          "resourceMode": 0,
+          "resourceName": "serverlesssample1",
+          "resourcePath": "/serverlesssample1",
+          "restMethod": "POST",
+          "proxyIntegration": false,
+          "enableCORS": false,
+          "stageMode": 0,
+          "stageName": "Testhiru",
+          "mode": 1
+        }
       }
     },
     "customTemplate": {
@@ -186,7 +212,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1567416512057
+    "lastSave": 1567416717394
   },
   "VCS_STATE": {
     "provider": "GitHub",
