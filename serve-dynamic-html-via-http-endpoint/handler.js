@@ -15,7 +15,7 @@ module.exports.landingPage = (event, context, callback) => {
     <body>
       <h1>Landing Page</h1>
       ${dynamicHtml}
- <form action="https://bevmmoznda.execute-api.us-east-1.amazonaws.com/Testhiru/serverlesssample">
+ <form action="https://bevmmoznda.execute-api.us-east-1.amazonaws.com/Testhiru/serverlesssample1">
   First name:<br>
   <input type="text" name="firstname" value="Mickey">
   <br>
@@ -27,7 +27,7 @@ module.exports.landingPage = (event, context, callback) => {
     </body>
   </html>`;
 
-  console.log(testaction);
+  
 
   const response = {
     statusCode: 200,
