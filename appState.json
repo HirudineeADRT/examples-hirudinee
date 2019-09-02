@@ -91,7 +91,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "serve-dynamic-html-via-http-endpoint/hirujs2.js",
-        "code": "exports.handler = function(event, context, callback) {\n\n    \n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "code": "exports.handler = function(event, context, callback) {\n\n    console.log(event);\n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -212,7 +212,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1567416717394
+    "lastSave": 1567416764697
   },
   "VCS_STATE": {
     "provider": "GitHub",
