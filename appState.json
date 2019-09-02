@@ -1,0 +1,146 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "9f0cebf0-15f3-4d3e-bc38-7be9a16cd26c": {
+        "id": "9f0cebf0-15f3-4d3e-bc38-7be9a16cd26c",
+        "parent": null,
+        "name": "serve-dynamic-html-via-http-endpoint",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "e0a67055-3fe5-493f-829d-7a95f3cae6f5"
+        ],
+        "isRemovable": false,
+        "filePath": "serve-dynamic-html-via-http-endpoint"
+      },
+      "e0a67055-3fe5-493f-829d-7a95f3cae6f5": {
+        "id": "e0a67055-3fe5-493f-829d-7a95f3cae6f5",
+        "parent": "9f0cebf0-15f3-4d3e-bc38-7be9a16cd26c",
+        "name": "handler.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "serve-dynamic-html-via-http-endpoint/handler.js",
+        "code": "'use strict';\n\nmodule.exports.landingPage = (event, context, callback) => {\n  let dynamicHtml = '<p>Hey Unknown!</p>';\n  // check for GET params and use if available\n  if (event.queryStringParameters && event.queryStringParameters.name) {\n    dynamicHtml = `<p>Hey ${event.queryStringParameters.name}!</p>`;\n  }\n\n  const html = `\n  <html>\n    <style>\n      h1 { color: #73757d; }\n    </style>\n    <body>\n      <h1>Landing Page</h1>\n      ${dynamicHtml}\n    </body>\n  </html>`;\n\n  const response = {\n    statusCode: 200,\n    headers: {\n      'Content-Type': 'text/html',\n    },\n    body: html,\n  };\n\n  // callback is sending HTML back\n  callback(null, response);\n};\n",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "landingPage",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [
+          {
+            "resourceName": "apigusEast1landingPagelandingPageget",
+            "config": {}
+          }
+        ]
+      },
+      "d5dd11d7-76ff-45b2-a34a-79f479649b01": {
+        "id": "d5dd11d7-76ff-45b2-a34a-79f479649b01",
+        "parent": null,
+        "name": "serverless.yml",
+        "type": "YAML_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "serverless.yml",
+        "code": "# Serving HTML through API Gateway for AWS Lambda\nservice: serve-dynamic-html-via-http-endpoint\n\nframeworkVersion: \">=1.1.0 <2.0.0\"\n\nprovider:\n  name: aws\n  runtime: nodejs8.10\n\nfunctions:\n  landingPage:\n    handler: handler.landingPage\n    events:\n      - http:\n          method: get\n          path: landing-page\n"
+      },
+      "96b7e399-3a80-4e8e-92bc-7c9adcfe618f": {
+        "id": "96b7e399-3a80-4e8e-92bc-7c9adcfe618f",
+        "parent": null,
+        "name": ".gitignore",
+        "type": "TEXT_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": ".gitignore",
+        "code": "node_modules\n.serverless\n"
+      },
+      "b2763ec7-7cc5-432d-9f55-2439b354b0ae": {
+        "id": "b2763ec7-7cc5-432d-9f55-2439b354b0ae",
+        "parent": null,
+        "name": "README.md",
+        "type": "MARKDOWN_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "README.md",
+        "code": "<!--\ntitle: 'AWS Serving Dynamic HTML via API Gateway example in NodeJS'\ndescription: 'This example illustrates how to hookup an API Gateway endpoint to a Lambda function to render HTML on a GET request.'\nlayout: Doc\nframework: v1\nplatform: AWS\nlanguage: nodeJS\nauthorLink: 'https://github.com/slate71'\nauthorName: 'Lukas Andersen'\nauthorAvatar: 'https://avatars0.githubusercontent.com/u/2078561?v=4&s=140'\n-->\n# Serving Dynamic HTML via API Gateway Example\n\nThis example illustrates how to hookup an API Gateway endpoint to a Lambda function to render HTML on a `GET` request.\n\n## Use-cases\n\n- Landing pages for marketing activities\n- Single use dynamic webpages\n\n## How it works\n\nInstead of returning the default `json` from a request, you can display custom dynamic HTML by setting the `Content-Type` header to `text/html`.\n\n```js\nconst response = {\n  statusCode: 200,\n  headers: {\n    'Content-Type': 'text/html',\n  },\n  body: html,\n};\n// callback will send HTML back\ncallback(null, response);\n```\n\n## Deploy\n\nIn order to deploy the endpoint simply run\n\n```bash\nserverless deploy\n```\n\nThe expected result should be similar to:\n\n```bash\nServerless: Creating Stack...\nServerless: Checking Stack create progress...\n.....\nServerless: Stack create finished...\nServerless: Packaging service...\nServerless: Uploading CloudFormation file to S3...\nServerless: Uploading service .zip file to S3 (1.01 KB)...\nServerless: Updating Stack...\nServerless: Checking Stack update progress...\n...........................\nServerless: Stack update finished...\n\nService Information\nservice: serve-dynamic-html-via-http-endpoint\nstage: dev\nregion: us-east-1\napi keys:\n  None\nendpoints:\n  GET - https://nzkl1kas89.execute-api.us-east-1.amazonaws.com/dev/landing-page\nfunctions:\n  serve-dynamic-html-via-http-endpoint-dev-landingPage: arn:aws:lambda:us-east-1:377024778620:function:serve-dynamic-html-via-http-endpoint-dev-landingPage\n```\n\n## Usage\n\nYou can now send an HTTP request directly to the endpoint using a tool like curl\n\n```bash\ncurl https://nzkl1kas89.execute-api.us-east-1.amazonaws.com/dev/landing-page?name=Nik%20Graf\n```\n\nThe expected result should be similar to:\n\n```bash\n<html>\n  <style>\n    h1 { color: #73757d; }\n  </style>\n  <body>\n    <h1>Landing Page</h1>\n    <p>Hey Nik Graf!</p>\n  </body>\n</html>%\n```\n\nOf course you can visit the URL in your browser and this is how it should look like:\n\n![Screenshot without a name](https://cloud.githubusercontent.com/assets/223045/20668061/12c6db9a-b56d-11e6-911c-8396d545471a.png)\n\nTo greet a specific person, provide the query parameter with the name of that person e.g. `?name=Nik%20Graf`. The response should now contain the provided name:\n\n![Screenshot with a name](https://cloud.githubusercontent.com/assets/223045/20668055/0758b4cc-b56d-11e6-80ce-3e137151311f.png)\n\n## Scaling\n\nBy default, AWS Lambda limits the total concurrent executions across all functions within a given region to 100. The default limit is a safety limit that protects you from costs due to potential runaway or recursive functions during initial development and testing. To increase this limit above the default, follow the steps in [To request a limit increase for concurrent executions](http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html#increase-concurrent-executions-limit).\n"
+      },
+      "bc50a0a3-75fa-4d55-b735-cb1a4f498752": {
+        "id": "bc50a0a3-75fa-4d55-b735-cb1a4f498752",
+        "parent": null,
+        "name": "package.json",
+        "type": "JSON_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "package.json",
+        "code": "{\n  \"name\": \"aws-serve-dynamic-html-via-http-endpoint\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Hookup an AWS API Gateway endpoint to a Lambda function to render HTML on a `GET` request\",\n  \"author\": \"\",\n  \"license\": \"MIT\"\n}\n"
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "9f0cebf0-15f3-4d3e-bc38-7be9a16cd26c",
+    "openFiles": [
+      "e0a67055-3fe5-493f-829d-7a95f3cae6f5"
+    ],
+    "currentFileId": "e0a67055-3fe5-493f-829d-7a95f3cae6f5",
+    "resources": {
+      "apigusEast1landingPagelandingPageget": {
+        "type": "API_GATEWAY",
+        "name": "apigusEast1landingPagelandingPageget",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiName": "landingPage",
+          "apiMode": 0,
+          "endpointType": "EDGE",
+          "mode": 0,
+          "resourceName": "landing-page",
+          "resourcePath": "/landing-page",
+          "resourceMode": 0,
+          "restMethod": "GET",
+          "proxyIntegration": true,
+          "enableCORS": false,
+          "stageMode": 0,
+          "stageName": "dev"
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": "CloudFormation",
+      "definitions": null
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {}
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "aws-serve-dynamic-html-via-http-endpoint",
+    "projectDescription": "Hookup an AWS API Gateway endpoint to a Lambda function to render HTML on a `GET` request",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1567413955089
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "examples-hirudinee",
+      "url": "https://github.com/HirudineeADRT/examples-hirudinee"
+    }
+  }
+}
