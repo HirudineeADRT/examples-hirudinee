@@ -7,6 +7,8 @@ module.exports.landingPage = (event, context, callback) => {
     dynamicHtml = `<p>Hey ${event.queryStringParameters.name}!</p>`;
   }
 
+
+
   const html = `
   <html>
     <style>
@@ -15,15 +17,7 @@ module.exports.landingPage = (event, context, callback) => {
     <body>
       <h1>Landing Page</h1>
       ${dynamicHtml}
- <form action="https://bevmmoznda.execute-api.us-east-1.amazonaws.com/Testhiru/serverlesssample1">
-  First name:<br>
-  <input type="text" name="firstname" value="Mickey">
-  <br>
-  Last name:<br>
-  <input type="text" name="lastname" value="Mouse">
-  <br><br>
-  <input type="submit" value="Submit">
-</form>
+      
     </body>
   </html>`;
 

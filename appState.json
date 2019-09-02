@@ -8,8 +8,7 @@
         "type": "DIRECTORY",
         "isDirectory": true,
         "children": [
-          "e0a67055-3fe5-493f-829d-7a95f3cae6f5",
-          "c732ca95-ce8d-46ef-86f7-180018ae3d5f"
+          "e0a67055-3fe5-493f-829d-7a95f3cae6f5"
         ],
         "isRemovable": false,
         "filePath": "serve-dynamic-html-via-http-endpoint"
@@ -23,7 +22,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "serve-dynamic-html-via-http-endpoint/handler.js",
-        "code": "'use strict';\n\nmodule.exports.landingPage = (event, context, callback) => {\n  let dynamicHtml = '<p>Hey Unknown!</p>';\n  // check for GET params and use if available\n  if (event.queryStringParameters && event.queryStringParameters.name) {\n    dynamicHtml = `<p>Hey ${event.queryStringParameters.name}!</p>`;\n  }\n\n  const html = `\n  <html>\n    <style>\n      h1 { color: #73757d; }\n    </style>\n    <body>\n      <h1>Landing Page</h1>\n      ${dynamicHtml}\n <form action=\"https://bevmmoznda.execute-api.us-east-1.amazonaws.com/Testhiru/serverlesssample1\">\n  First name:<br>\n  <input type=\"text\" name=\"firstname\" value=\"Mickey\">\n  <br>\n  Last name:<br>\n  <input type=\"text\" name=\"lastname\" value=\"Mouse\">\n  <br><br>\n  <input type=\"submit\" value=\"Submit\">\n</form>\n    </body>\n  </html>`;\n\n  \n\n  const response = {\n    statusCode: 200,\n    headers: {\n      'Content-Type': 'text/html',\n    },\n    body: html,\n  };\n\n  // callback is sending HTML back\n  callback(null, response);\n};\n",
+        "code": "'use strict';\n\nmodule.exports.landingPage = (event, context, callback) => {\n  let dynamicHtml = '<p>Hey Unknown!</p>';\n  // check for GET params and use if available\n  if (event.queryStringParameters && event.queryStringParameters.name) {\n    dynamicHtml = `<p>Hey ${event.queryStringParameters.name}!</p>`;\n  }\n\n\n\n  const html = `\n  <html>\n    <style>\n      h1 { color: #73757d; }\n    </style>\n    <body>\n      <h1>Landing Page</h1>\n      ${dynamicHtml}\n      \n    </body>\n  </html>`;\n\n  \n\n  const response = {\n    statusCode: 200,\n    headers: {\n      'Content-Type': 'text/html',\n    },\n    body: html,\n  };\n\n  // callback is sending HTML back\n  callback(null, response);\n};\n",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "landingPage",
@@ -81,39 +80,16 @@
         "isRemovable": true,
         "filePath": "package.json",
         "code": "{\n  \"name\": \"aws-serve-dynamic-html-via-http-endpoint\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Hookup an AWS API Gateway endpoint to a Lambda function to render HTML on a `GET` request\",\n  \"author\": \"\",\n  \"license\": \"MIT\"\n}\n"
-      },
-      "c732ca95-ce8d-46ef-86f7-180018ae3d5f": {
-        "id": "c732ca95-ce8d-46ef-86f7-180018ae3d5f",
-        "parent": "9f0cebf0-15f3-4d3e-bc38-7be9a16cd26c",
-        "name": "hirujs2.js",
-        "type": "JS_LAMBDA",
-        "isDirectory": false,
-        "children": [],
-        "isRemovable": true,
-        "filePath": "serve-dynamic-html-via-http-endpoint/hirujs2.js",
-        "code": "exports.handler = function(event, context, callback) {\n\n    console.log(event);\n    \n    callback(null, {\"message\": \"Successfully executed\"});\n}",
-        "config": {
-          "runtime": "nodejs8.10",
-          "handler": "handler",
-          "timeout": 60,
-          "memory": 128,
-          "layers": []
-        },
-        "triggers": [
-          {
-            "resourceName": "apigusEast1HiruAPIserverlesssample1post",
-            "config": {}
-          }
-        ]
       }
     },
-    "deletedFiles": [],
+    "deletedFiles": [
+      "serve-dynamic-html-via-http-endpoint/hirujs2.js"
+    ],
     "rootNode": "9f0cebf0-15f3-4d3e-bc38-7be9a16cd26c",
     "openFiles": [
-      "e0a67055-3fe5-493f-829d-7a95f3cae6f5",
-      "c732ca95-ce8d-46ef-86f7-180018ae3d5f"
+      "e0a67055-3fe5-493f-829d-7a95f3cae6f5"
     ],
-    "currentFileId": "c732ca95-ce8d-46ef-86f7-180018ae3d5f",
+    "currentFileId": "e0a67055-3fe5-493f-829d-7a95f3cae6f5",
     "resources": {
       "apigusEast1landingPagelandingPageget": {
         "type": "API_GATEWAY",
@@ -185,6 +161,39 @@
           "stageName": "Testhiru",
           "mode": 1
         }
+      },
+      "ddbhiru": {
+        "name": "ddbhiru",
+        "type": "DynamoDB",
+        "config": {
+          "mode": 0,
+          "operation": "get",
+          "table": {
+            "arn": "",
+            "name": "hiru",
+            "partitionKey": "id",
+            "partitionKeyType": "S",
+            "hasSortKey": false,
+            "sortKey": "",
+            "sortKeyType": "S",
+            "payPerRequest": true,
+            "mode": 0
+          },
+          "isGlobalEditMode": false,
+          "parameters": {
+            "Key": {
+              "id": "01"
+            },
+            "Item": {},
+            "ExpressionAttributeValues": {}
+          },
+          "triggerParams": {},
+          "validator": {
+            "validatableFields": {},
+            "validity": true
+          },
+          "valid": true
+        }
       }
     },
     "customTemplate": {
@@ -202,7 +211,15 @@
       }
     ],
     "packageJSON": {
-      "dependencies": {}
+      "dependencies": {
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "language": "javascript",
+          "version": "2.176.0",
+          "dev": true,
+          "notRemovable": false
+        }
+      }
     }
   },
   "PROJECT_META": {
@@ -212,7 +229,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1567417032962
+    "lastSave": 1567417722481
   },
   "VCS_STATE": {
     "provider": "GitHub",
